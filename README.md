@@ -304,8 +304,6 @@ The application exposes backend APIs for authentication, property management, ag
 
 Developed by Hridyansh Joshi
 
-A portfolio-ready full-stack project built with the MERN stack, focused on real-world real estate workflows, secure access, and responsive user experience.
-
 ---
 
 <p align="center">
