@@ -16,10 +16,17 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.set("trust proxy", true);
 
+const allowedOrigins = (process.env.CORS_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const corsOrigins = allowedOrigins.length ? allowedOrigins : ["http://localhost:5173"];
+
 // Middlewares
 app.use(
   cors({
-    origin: process.env.CORS_ORIGINS,
+    origin: corsOrigins,
     credentials: true,
   })
 );
