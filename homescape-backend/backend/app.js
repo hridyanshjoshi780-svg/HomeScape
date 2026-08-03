@@ -21,15 +21,26 @@ const allowedOrigins = (process.env.CORS_ORIGINS || "")
   .map((origin) => origin.trim())
   .filter(Boolean);
 
-const corsOrigins = allowedOrigins.length ? allowedOrigins : ["http://localhost:5173"];
+const defaultOrigins = ["http://localhost:5173"];
+const corsOrigins = allowedOrigins.length ? allowedOrigins : defaultOrigins;
+
+const corsOptions = {
+  credentials: true,
+  origin: (origin, callback) => {
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (corsOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"));
+  },
+};
 
 // Middlewares
-app.use(
-  cors({
-    origin: corsOrigins,
-    credentials: true,
-  })
-);
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
